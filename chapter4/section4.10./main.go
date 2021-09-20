@@ -2,6 +2,7 @@ package main
 
 import (
 	"os"
+	"time"
 
 	logger "github.com/aliforever/go-log"
 )
@@ -9,6 +10,8 @@ import (
 var log *logger.Logger = logger.NewLogger(os.Stdout)
 
 func main() {
-	log.Begin()
-	log.End()
+	localLogger := log.Begin()
+	localLogger.Log("Hello World")
+	time.Sleep(time.Millisecond * 4)
+	localLogger.End()
 }
