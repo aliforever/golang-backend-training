@@ -1,9 +1,10 @@
 package main
 
 import (
+	"encoding/json"
 	"net/http"
 
-	log "github.com/aliforever/go-log"
+	"github.com/aliforever/go-log"
 )
 
 var logger = log.NewLogger(nil).Level(6)
@@ -20,6 +21,11 @@ func main() {
 }
 
 func IndexHandler(writer http.ResponseWriter, request *http.Request) {
-	logger.Trace("Incoming HTTP Request", request)
-	writer.Write([]byte("Hello World"))
+	logger.Trace("Incoming HTTP Request For Index", request)
+	j, _ := json.Marshal(map[string]interface{}{
+		"msg": "Hello World!",
+	})
+
+	writer.Header().Set("Content-Type", "application/json")
+	writer.Write(j)
 }

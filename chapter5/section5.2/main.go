@@ -12,7 +12,7 @@ var logger = log.NewLogger(nil).Level(6)
 func main() {
 	logger = logger.Begin()
 	defer logger.End()
-	handler := http.DefaultServeMux
+	handler := http.NewServeMux()
 	handler.HandleFunc("/", IndexHandler)
 	handler.HandleFunc("/hello", NameHandler)
 	if err := http.ListenAndServe(":80", handler); err != nil {
