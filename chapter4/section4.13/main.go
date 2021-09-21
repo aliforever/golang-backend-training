@@ -8,7 +8,7 @@ import (
 	logger "github.com/aliforever/go-log"
 )
 
-var log *logger.Logger = logger.NewLogger(os.Stdout)
+var log *logger.Logger = logger.NewLogger(os.Stdout).Level(6)
 
 func main() {
 	log.Log("App Started...")
