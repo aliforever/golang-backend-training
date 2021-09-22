@@ -1,4 +1,4 @@
-module github.com/aliforever/golang-backend-training/chapter6/chapter6.3
+module github.com/aliforever/golang-backend-training/chapter6/section6.3
 
 go 1.14
 
