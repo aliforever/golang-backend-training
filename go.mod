@@ -4,5 +4,6 @@ go 1.14
 
 require (
 	github.com/aliforever/go-log v0.0.0-20210915162151-ca0c55b652cf // indirect
+	github.com/lib/pq v1.10.3 // indirect
 	github.com/reiver/go-simplehttp v1.0.0 // indirect
 )
