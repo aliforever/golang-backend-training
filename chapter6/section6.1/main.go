@@ -23,5 +23,8 @@ func main() {
 
 func IndexHandler(writer http.ResponseWriter, request *http.Request) {
 	logger.Trace("Incoming HTTP Request For Index", request)
-	utils.HttpOkJSON(writer, "Hello World!")
+
+	if err := utils.HttpOkJSON(writer, "Hello World!"); err != nil {
+		logger.Error("error writing response", err)
+	}
 }

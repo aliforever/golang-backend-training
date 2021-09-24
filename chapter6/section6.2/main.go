@@ -30,7 +30,10 @@ func HelloHandler(writer http.ResponseWriter, request *http.Request) {
 	writer.Header().Set("Content-Type", "application/json")
 	if name == "" {
 		logger.Trace("Empty name passed", request)
-		utils.HttpBadRequestJSON(writer, "empty_name")
+
+		if err := utils.HttpBadRequestJSON(writer, "empty_name"); err != nil {
+			logger.Error("error writing response", err)
+		}
 		return
 	}
 	utils.HttpOkJSON(writer, fmt.Sprintf("Hello %s!", name))
@@ -38,5 +41,8 @@ func HelloHandler(writer http.ResponseWriter, request *http.Request) {
 
 func IndexHandler(writer http.ResponseWriter, request *http.Request) {
 	logger.Trace("Incoming HTTP Request For Index", request)
-	utils.HttpOkJSON(writer, "Hello World!")
+
+	if err := utils.HttpOkJSON(writer, "Hello World!"); err != nil {
+		logger.Error("error writing response", err)
+	}
 }

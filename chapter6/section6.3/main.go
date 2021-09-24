@@ -31,17 +31,25 @@ func AdditionHandler(writer http.ResponseWriter, request *http.Request) {
 	x, xErr := strconv.ParseInt(request.Form.Get("x"), 10, 64)
 	if xErr != nil {
 		logger.Trace("invalid_input_x", request)
-		utils.HttpBadRequestJSON(writer, "invalid_input_x")
+
+		if err := utils.HttpBadRequestJSON(writer, "invalid_input_x"); err != nil {
+			logger.Error("error writing response", err)
+		}
 		return
 	}
 	y, yErr := strconv.ParseInt(request.Form.Get("y"), 10, 64)
 	if yErr != nil {
 		logger.Trace("invalid_input_y", request)
-		utils.HttpBadRequestJSON(writer, "invalid_input_y")
+		if err := utils.HttpBadRequestJSON(writer, "invalid_input_y"); err != nil {
+			logger.Error("error writing response", err)
+		}
 		return
 	}
 	logger.LogF("Request's x & y were %d-%d", x, y)
-	utils.HttpOkJSON(writer, x+y)
+
+	if err := utils.HttpOkJSON(writer, x+y); err != nil {
+		logger.Error("error writing response", err)
+	}
 }
 
 func HelloHandler(writer http.ResponseWriter, request *http.Request) {
@@ -51,14 +59,20 @@ func HelloHandler(writer http.ResponseWriter, request *http.Request) {
 	writer.Header().Set("Content-Type", "application/json")
 	if name == "" {
 		logger.Trace("Empty name passed", request)
-		utils.HttpBadRequestJSON(writer, "empty_name")
+		if err := utils.HttpBadRequestJSON(writer, "empty_name"); err != nil {
+			logger.Error("error writing response", err)
+		}
 		return
 	}
 	logger.LogF("Request's name was %s", name)
-	utils.HttpOkJSON(writer, fmt.Sprintf("Hello %s!", name))
+	if err := utils.HttpOkJSON(writer, fmt.Sprintf("Hello %s!", name)); err != nil {
+		logger.Error("error writing response", err)
+	}
 }
 
 func IndexHandler(writer http.ResponseWriter, request *http.Request) {
 	logger.Trace("Incoming HTTP Request For Index", request)
-	utils.HttpOkJSON(writer, "Hello World")
+	if err := utils.HttpOkJSON(writer, "Hello World"); err != nil {
+		logger.Error("error writing response", err)
+	}
 }
