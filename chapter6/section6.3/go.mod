@@ -4,5 +4,5 @@ go 1.14
 
 require (
 	github.com/aliforever/go-log v0.0.0-20210921140853-55f048394552
-	github.com/aliforever/golang-backend-training v0.0.0-20210924171347-2e9354040ec3 // indirect
+	github.com/aliforever/golang-backend-training v0.0.0-20210924181858-7cefeff4348a // indirect
 )
