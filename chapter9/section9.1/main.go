@@ -4,6 +4,8 @@ import (
 	"database/sql"
 	"fmt"
 
+	"github.com/aliforever/golang-backend-training/utils"
+
 	"github.com/aliforever/go-log"
 
 	"github.com/aliforever/golang-backend-training/chapter9/section9.1/models"
@@ -11,7 +13,7 @@ import (
 	_ "github.com/lib/pq"
 )
 
-var logger = log.NewLogger(nil).Level(6)
+var logger = log.NewLogger(nil).Level(utils.LogLevel)
 
 func main() {
 	var (

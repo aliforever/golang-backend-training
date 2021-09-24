@@ -5,12 +5,14 @@ import (
 	"net/http"
 	"strconv"
 
+	"github.com/aliforever/golang-backend-training/utils"
+
 	"github.com/aliforever/go-log"
 	"github.com/reiver/go-simplehttp"
 	_ "github.com/reiver/go-simplehttp/driver/json"
 )
 
-var logger = log.NewLogger(nil).Level(6)
+var logger = log.NewLogger(nil).Level(utils.LogLevel)
 var simpleJSON, _ = simplehttp.Load("json")
 
 func main() {
