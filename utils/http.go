@@ -16,12 +16,21 @@ func HttpBadRequestJSON(writer http.ResponseWriter, data interface{}) (err error
 }
 
 func writeResponseJSON(writer http.ResponseWriter, httpStatus int, data interface{}) (err error) {
+	writer.Header().Set("Content-Type", "application/json")
+
 	var b []byte
+
 	b, err = json.Marshal(map[string]interface{}{
 		"msg": data,
 	})
+
+	if err != nil {
+		writer.WriteHeader(http.StatusInternalServerError)
+		writer.Write([]byte("Internal Server Error"))
+		return
+	}
+
 	writer.WriteHeader(httpStatus)
-	writer.Header().Set("Content-Type", "application/json")
 	writer.Write(b)
 	return
 }

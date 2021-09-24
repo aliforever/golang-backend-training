@@ -1,9 +1,10 @@
 package main
 
 import (
-	"encoding/json"
 	"fmt"
 	"net/http"
+
+	"github.com/aliforever/golang-backend-training/utils"
 
 	"github.com/aliforever/go-log"
 )
@@ -29,25 +30,13 @@ func HelloHandler(writer http.ResponseWriter, request *http.Request) {
 	writer.Header().Set("Content-Type", "application/json")
 	if name == "" {
 		logger.Trace("Empty name passed", request)
-		j, _ := json.Marshal(map[string]interface{}{
-			"msg": "empty_name",
-		})
-		writer.Write(j)
+		utils.HttpBadRequestJSON(writer, "empty_name")
 		return
 	}
-	logger.LogF("Request's name was %s", name)
-	j, _ := json.Marshal(map[string]interface{}{
-		"msg": fmt.Sprintf("Hello %s!", name),
-	})
-	writer.Write(j)
+	utils.HttpOkJSON(writer, fmt.Sprintf("Hello %s!", name))
 }
 
 func IndexHandler(writer http.ResponseWriter, request *http.Request) {
 	logger.Trace("Incoming HTTP Request For Index", request)
-	j, _ := json.Marshal(map[string]interface{}{
-		"msg": "Hello World!",
-	})
-
-	writer.Header().Set("Content-Type", "application/json")
-	writer.Write(j)
+	utils.HttpOkJSON(writer, "Hello World!")
 }

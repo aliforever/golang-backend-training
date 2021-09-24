@@ -1,10 +1,11 @@
 package main
 
 import (
-	"encoding/json"
 	"fmt"
 	"net/http"
 	"strconv"
+
+	"github.com/aliforever/golang-backend-training/utils"
 
 	"github.com/aliforever/go-log"
 )
@@ -24,32 +25,23 @@ func main() {
 	}
 }
 
-func writeResponse(writer http.ResponseWriter, message interface{}) {
-	j, _ := json.Marshal(map[string]interface{}{
-		"msg": message,
-	})
-	writer.Header().Set("Content-Type", "application/json")
-	writer.Write(j)
-	return
-}
-
 func AdditionHandler(writer http.ResponseWriter, request *http.Request) {
 	logger.Trace("Incoming HTTP Request For Addition Handler", request)
 	request.ParseForm()
 	x, xErr := strconv.ParseInt(request.Form.Get("x"), 10, 64)
 	if xErr != nil {
 		logger.Trace("invalid_input_x", request)
-		writeResponse(writer, "invalid_input_x")
+		utils.HttpBadRequestJSON(writer, "invalid_input_x")
 		return
 	}
 	y, yErr := strconv.ParseInt(request.Form.Get("y"), 10, 64)
 	if yErr != nil {
 		logger.Trace("invalid_input_y", request)
-		writeResponse(writer, "invalid_input_y")
+		utils.HttpBadRequestJSON(writer, "invalid_input_y")
 		return
 	}
 	logger.LogF("Request's x & y were %d-%d", x, y)
-	writeResponse(writer, x+y)
+	utils.HttpOkJSON(writer, x+y)
 }
 
 func HelloHandler(writer http.ResponseWriter, request *http.Request) {
@@ -59,14 +51,14 @@ func HelloHandler(writer http.ResponseWriter, request *http.Request) {
 	writer.Header().Set("Content-Type", "application/json")
 	if name == "" {
 		logger.Trace("Empty name passed", request)
-		writeResponse(writer, "empty_name")
+		utils.HttpBadRequestJSON(writer, "empty_name")
 		return
 	}
 	logger.LogF("Request's name was %s", name)
-	writeResponse(writer, fmt.Sprintf("Hello %s!", name))
+	utils.HttpOkJSON(writer, fmt.Sprintf("Hello %s!", name))
 }
 
 func IndexHandler(writer http.ResponseWriter, request *http.Request) {
 	logger.Trace("Incoming HTTP Request For Index", request)
-	writeResponse(writer, "Hello World")
+	utils.HttpOkJSON(writer, "Hello World")
 }

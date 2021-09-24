@@ -1,8 +1,9 @@
 package main
 
 import (
-	"encoding/json"
 	"net/http"
+
+	"github.com/aliforever/golang-backend-training/utils"
 
 	"github.com/aliforever/go-log"
 )
@@ -22,10 +23,5 @@ func main() {
 
 func IndexHandler(writer http.ResponseWriter, request *http.Request) {
 	logger.Trace("Incoming HTTP Request For Index", request)
-	j, _ := json.Marshal(map[string]interface{}{
-		"msg": "Hello World!",
-	})
-
-	writer.Header().Set("Content-Type", "application/json")
-	writer.Write(j)
+	utils.HttpOkJSON(writer, "Hello World!")
 }
