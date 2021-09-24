@@ -54,7 +54,7 @@ func HelloHandler(writer http.ResponseWriter, request *http.Request) {
 	logger.Trace("Incoming HTTP Request For Name Handler", request)
 	request.ParseForm()
 	name := request.Form.Get("name")
-	writer.Header().Set("Content-Type", "application/json")
+
 	if name == "" {
 		logger.Trace("Empty name passed", request)
 		simpleJSON.BadRequest(writer, "empty_name")
