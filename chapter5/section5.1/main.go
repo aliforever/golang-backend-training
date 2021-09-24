@@ -23,5 +23,7 @@ func main() {
 
 func IndexHandler(writer http.ResponseWriter, request *http.Request) {
 	logger.Trace("Incoming HTTP Request", request)
-	writer.Write([]byte("Hello World"))
+	if err := utils.HttpOkRaw(writer, "Hello World!"); err != nil {
+		logger.Error("Error writing response", err)
+	}
 }
