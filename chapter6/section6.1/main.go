@@ -8,7 +8,7 @@ import (
 	"github.com/aliforever/go-log"
 )
 
-var logger = log.NewLogger(nil).Level(6)
+var logger = log.NewLogger(nil).Level(utils.LogLevel)
 
 func main() {
 	logger = logger.Begin()
