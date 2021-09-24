@@ -4,5 +4,7 @@ github.com/aliforever/go-log v0.0.0-20210921140853-55f048394552 h1:9RJ0/6FkeBz/n
 github.com/aliforever/go-log v0.0.0-20210921140853-55f048394552/go.mod h1:YqoU9DCnYoJREG5TMz9FCLTOwp/cTmwnYPHMbwNPn08=
 github.com/aliforever/golang-backend-training v0.0.0-20210924181858-7cefeff4348a h1:mlDMGP2aZFagOQR2XQxgbVuXNUEaazIXnfRHw94JPT0=
 github.com/aliforever/golang-backend-training v0.0.0-20210924181858-7cefeff4348a/go.mod h1:9W5fRgXjIO4G+TQ4BeOrW0RCr8TrITryr9EN9zot724=
+github.com/aliforever/golang-backend-training v0.0.0-20210924183147-fe16cda7fb76 h1:egXC8yXbiywJw27LxecMHFT+EpkscBDzB2o8nJbvKHI=
+github.com/aliforever/golang-backend-training v0.0.0-20210924183147-fe16cda7fb76/go.mod h1:9W5fRgXjIO4G+TQ4BeOrW0RCr8TrITryr9EN9zot724=
 github.com/lib/pq v1.10.3/go.mod h1:AlVN5x4E4T544tWzH6hKfbfQvm3HdbOxrmggDNAPY9o=
 github.com/reiver/go-simplehttp v1.0.0/go.mod h1:iMS6LBH2hlfBZhzFPZK7IiFQbZE8HfxgK8F9QJGBC9o=

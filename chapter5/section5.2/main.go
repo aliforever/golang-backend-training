@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"net/http"
 
 	"github.com/aliforever/golang-backend-training/utils"
@@ -29,14 +28,20 @@ func NameHandler(writer http.ResponseWriter, request *http.Request) {
 	name := request.Form.Get("name")
 	if name == "" {
 		logger.Trace("Empty name passed", request)
-		writer.Write([]byte("empty_name"))
+		if err := utils.HttpBadRequestRaw(writer, "empty_name"); err != nil {
+			logger.Error("Error writing response", err)
+		}
 		return
 	}
 	logger.LogF("Request's name was %s", name)
-	writer.Write([]byte(fmt.Sprintf("Hello %s!", name)))
+	if err := utils.HttpOkRaw(writer, "empty_name"); err != nil {
+		logger.Error("Error writing response", err)
+	}
 }
 
 func IndexHandler(writer http.ResponseWriter, request *http.Request) {
 	logger.Trace("Incoming HTTP Request For Index", request)
-	writer.Write([]byte("Hello World"))
+	if err := utils.HttpOkRaw(writer, "Hello World!"); err != nil {
+		logger.Error("Error writing response", err)
+	}
 }
