@@ -1,70 +1,48 @@
 package main
 
 import (
-	"fmt"
-	"net/http"
-	"strconv"
+	"encoding/json"
 
-	"github.com/aliforever/golang-backend-training/utils"
+	"github.com/aliforever/golang-backend-training/chapter7/section7.1/srv/logger"
 
-	"github.com/aliforever/go-log"
-	"github.com/reiver/go-simplehttp"
 	_ "github.com/reiver/go-simplehttp/driver/json"
 )
 
-var logger = log.NewLogger(nil).Level(utils.LogLevel)
-var simpleJSON, _ = simplehttp.Load("json")
+type Fruit struct {
+	Apple  bool   `json:"apple"`
+	Banana string `json:"banana"`
+	Cherry int64  `json:"cherry"`
+}
 
 func main() {
-	logger = logger.Begin()
-	defer logger.End()
+	logger.DefaultLogger = logger.DefaultLogger.Begin()
+	defer logger.DefaultLogger.End()
 
-	handler := http.NewServeMux()
-	handler.HandleFunc("/", IndexHandler)
-	handler.HandleFunc("/hello", HelloHandler)
-	handler.HandleFunc("/addition", AdditionHandler)
+	var data map[string]interface{} = map[string]interface{}{
+		"apple":  "ONE",
+		"banana": "TWO",
+		"cherry": "THREE",
+	}
 
-	if err := http.ListenAndServe(":80", handler); err != nil {
-		logger.Error("Error listening to port 80", err)
+	p, err := json.Marshal(data)
+	if err != nil {
+		logger.DefaultLogger.Error("Error marshaling JSON", err)
 		return
 	}
-}
 
-func AdditionHandler(writer http.ResponseWriter, request *http.Request) {
-	logger.Trace("Incoming HTTP Request For Addition Handler", request)
+	logger.DefaultLogger.Log("First Json:", string(p))
 
-	request.ParseForm()
-	x, xErr := strconv.ParseInt(request.Form.Get("x"), 10, 64)
-	if xErr != nil {
-		logger.Trace("invalid_input_x", request)
-		simpleJSON.BadRequest(writer, "invalid_input_x")
+	newFruit := Fruit{
+		Apple:  true,
+		Banana: "TWO",
+		Cherry: 3,
+	}
+
+	p, err = json.Marshal(newFruit)
+	if err != nil {
+		logger.DefaultLogger.Error("Error marshaling JSON", err)
 		return
 	}
-	y, yErr := strconv.ParseInt(request.Form.Get("y"), 10, 64)
-	if yErr != nil {
-		logger.Trace("invalid_input_y", request)
-		simpleJSON.BadRequest(writer, "invalid_input_y")
-		return
-	}
-	logger.LogF("Request's x & y were %d-%d", x, y)
-	simpleJSON.OK(writer, fmt.Sprintf("%d", x+y))
-}
 
-func HelloHandler(writer http.ResponseWriter, request *http.Request) {
-	logger.Trace("Incoming HTTP Request For Name Handler", request)
-	request.ParseForm()
-	name := request.Form.Get("name")
-
-	if name == "" {
-		logger.Trace("Empty name passed", request)
-		simpleJSON.BadRequest(writer, "empty_name")
-		return
-	}
-	logger.LogF("Request's name was %s", name)
-	simpleJSON.OK(writer, fmt.Sprintf("Hello %s!", name))
-}
-
-func IndexHandler(writer http.ResponseWriter, request *http.Request) {
-	logger.Trace("Incoming HTTP Request For Index", request)
-	simpleJSON.OK(writer, "Hello World!")
+	logger.DefaultLogger.Log("Second Json:", string(p))
 }
