@@ -1,57 +1,36 @@
 package main
 
 import (
-	"database/sql"
-	"fmt"
-
-	"github.com/aliforever/golang-backend-training/utils"
-
-	"github.com/aliforever/go-log"
-
 	"github.com/aliforever/golang-backend-training/chapter9/section9.1/models"
+	"github.com/aliforever/golang-backend-training/chapter9/section9.1/srv/db"
+
+	"github.com/aliforever/golang-backend-training/chapter9/section9.1/srv/logger"
 
 	_ "github.com/lib/pq"
 )
 
-var logger = log.NewLogger(nil).Level(utils.LogLevel)
-
 func main() {
-	var (
-		dbHost     = "localhost"
-		dbPort     = 5432
-		dbName     = "my_database"
-		dbUser     = "postgres"
-		dbPassword = "159852"
-	)
+	log := logger.Begin()
+	defer log.End()
 
-	logger.Log("Connecting to PostgreSQL")
-	db, err := sql.Open("postgres", fmt.Sprintf("host=%s port=%d user=%s "+
-		"password=%s dbname=%s sslmode=disable",
-		dbHost, dbPort, dbUser, dbPassword, dbName))
+	log.Log("Connecting to PostgreSQL")
+
+	var err error
+
+	err = db.Connect()
 	if err != nil {
-		logger.Error("Error connecting to PostgreSQL", err)
+		log.Error("Error connecting to postgreSQL", err)
 		return
 	}
 	defer db.Close()
 
-	logger.Log("Finding all users")
-	rows, err := db.Query("select * from users")
-	if err != nil {
-		logger.Error("Error finding all users", err)
-		return
-	}
-	defer rows.Close()
+	log.Log("Finding all users")
 
 	var users []models.User
-	for rows.Next() {
-		var user = models.User{}
-		err := rows.Scan(&user.Id, &user.Name, &user.Username, &user.Password, &user.WhenCreated)
-		if err != nil {
-			logger.Log("Error scanning user", err)
-			return
-		}
-		users = append(users, user)
+	users, err = models.User{}.FindAll()
+	if err != nil {
+		log.Error("Error finding users", err)
+		return
 	}
-
-	logger.Trace("List of users", users)
+	log.Trace("List of users", users)
 }

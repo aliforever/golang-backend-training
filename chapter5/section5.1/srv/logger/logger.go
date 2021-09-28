@@ -8,8 +8,12 @@ import (
 	logger "github.com/aliforever/go-log"
 )
 
-var DefaultLogger *logger.Logger = logger.NewLogger(os.Stdout)
+var defaultLogger *logger.Logger = logger.NewLogger(os.Stdout)
 
 func init() {
-	DefaultLogger = DefaultLogger.Level(arg.LogLevel)
+	defaultLogger = defaultLogger.Level(arg.LogLevel)
+}
+
+func Begin() *logger.Logger {
+	return defaultLogger.Begin()
 }

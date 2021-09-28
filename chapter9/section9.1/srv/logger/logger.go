@@ -3,7 +3,7 @@ package logger
 import (
 	"os"
 
-	"github.com/aliforever/golang-backend-training/chapter7/section7.3/arg"
+	"github.com/aliforever/golang-backend-training/chapter9/section9.1/arg"
 
 	logger "github.com/aliforever/go-log"
 )

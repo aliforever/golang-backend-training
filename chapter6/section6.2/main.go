@@ -10,27 +10,29 @@ import (
 )
 
 func main() {
-	logger.DefaultLogger = logger.DefaultLogger.Begin()
-	defer logger.DefaultLogger.End()
+	log := logger.Begin()
+	defer log.End()
 	handler := http.NewServeMux()
 	handler.HandleFunc("/", IndexHandler)
 	handler.HandleFunc("/hello", HelloHandler)
 	if err := http.ListenAndServe(":80", handler); err != nil {
-		logger.DefaultLogger.Error("Error listening to port 80", err)
+		log.Error("Error listening to port 80", err)
 		return
 	}
 }
 
 func HelloHandler(writer http.ResponseWriter, request *http.Request) {
-	logger.DefaultLogger.Trace("Incoming HTTP Request For Name Handler", request)
+	log := logger.Begin()
+	defer log.End()
+	log.Trace("Incoming HTTP Request For Name Handler", request)
 	request.ParseForm()
 	name := request.Form.Get("name")
 	writer.Header().Set("Content-Type", "application/json")
 	if name == "" {
-		logger.DefaultLogger.Trace("Empty name passed", request)
+		log.Trace("Empty name passed", request)
 
 		if err := utils.HttpBadRequestJSON(writer, "empty_name"); err != nil {
-			logger.DefaultLogger.Error("error writing response", err)
+			log.Error("error writing response", err)
 		}
 		return
 	}
@@ -38,9 +40,11 @@ func HelloHandler(writer http.ResponseWriter, request *http.Request) {
 }
 
 func IndexHandler(writer http.ResponseWriter, request *http.Request) {
-	logger.DefaultLogger.Trace("Incoming HTTP Request For Index", request)
+	log := logger.Begin()
+	defer log.End()
+	log.Trace("Incoming HTTP Request For Index", request)
 
 	if err := utils.HttpOkJSON(writer, "Hello World!"); err != nil {
-		logger.DefaultLogger.Error("error writing response", err)
+		log.Error("error writing response", err)
 	}
 }

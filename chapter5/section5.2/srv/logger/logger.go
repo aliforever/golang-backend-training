@@ -3,13 +3,17 @@ package logger
 import (
 	"os"
 
-	"github.com/aliforever/golang-backend-training/chapter5/section5.1/arg"
+	"github.com/aliforever/golang-backend-training/chapter5/section5.2/arg"
 
 	logger "github.com/aliforever/go-log"
 )
 
-var DefaultLogger *logger.Logger = logger.NewLogger(os.Stdout)
+var defaultLogger *logger.Logger = logger.NewLogger(os.Stdout)
 
 func init() {
-	DefaultLogger = DefaultLogger.Level(arg.LogLevel)
+	defaultLogger = defaultLogger.Level(arg.LogLevel)
+}
+
+func Begin() *logger.Logger {
+	return defaultLogger.Begin()
 }

@@ -13,19 +13,21 @@ type Response struct {
 }
 
 func main() {
-	logger.DefaultLogger = logger.DefaultLogger.Begin()
-	defer logger.DefaultLogger.End()
+	log := logger.Begin()
+	defer log.End()
 
 	handler := http.NewServeMux()
 	handler.HandleFunc("/", NotFoundHandler)
 
 	err := http.ListenAndServe(":80", handler)
 	if err != nil {
-		logger.DefaultLogger.Error("error listening on port 80", err)
+		log.Error("error listening on port 80", err)
 		return
 	}
 }
 
 func NotFoundHandler(writer http.ResponseWriter, _ *http.Request) {
+	log := logger.Begin()
+	defer log.End()
 	// TODO
 }

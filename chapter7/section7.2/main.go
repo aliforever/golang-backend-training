@@ -14,7 +14,8 @@ type Info struct {
 }
 
 func main() {
-	logger.DefaultLogger = logger.DefaultLogger.Begin()
+	log := logger.Begin()
+	defer log.End()
 
 	var jsonString strings.Builder
 
@@ -25,9 +26,9 @@ func main() {
 
 	err := json.NewEncoder(&jsonString).Encode(info)
 	if err != nil {
-		logger.DefaultLogger.Error(err)
+		log.Error(err)
 		return
 	}
 
-	logger.DefaultLogger.LogF("json string: %s", jsonString.String())
+	log.LogF("json string: %s", jsonString.String())
 }

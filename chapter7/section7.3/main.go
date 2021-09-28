@@ -14,20 +14,22 @@ type Response struct {
 }
 
 func main() {
-	logger.DefaultLogger = logger.DefaultLogger.Begin()
-	defer logger.DefaultLogger.End()
+	log := logger.Begin()
+	defer log.End()
 
 	handler := http.NewServeMux()
 	handler.HandleFunc("/", NotFoundHandler)
 
 	err := http.ListenAndServe(":80", handler)
 	if err != nil {
-		logger.DefaultLogger.Error("error listening on port 80", err)
+		log.Error("error listening on port 80", err)
 		return
 	}
 }
 
 func NotFoundHandler(writer http.ResponseWriter, _ *http.Request) {
+	log := logger.Begin()
+	defer log.End()
 	writer.Header().Set("Content-Type", "application/json")
 	writer.WriteHeader(http.StatusNotFound)
 
@@ -38,7 +40,7 @@ func NotFoundHandler(writer http.ResponseWriter, _ *http.Request) {
 		HumanMessage: "This is not the URI you are looking for.",
 	})
 	if err != nil {
-		logger.DefaultLogger.Error("Error encoding json response", err)
+		log.Error("Error encoding json response", err)
 		writer.Header().Set("Content-Type", "application/text")
 		writer.WriteHeader(http.StatusInternalServerError)
 		writer.Write([]byte("Internal Server Error"))

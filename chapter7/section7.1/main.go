@@ -15,8 +15,8 @@ type Fruit struct {
 }
 
 func main() {
-	logger.DefaultLogger = logger.DefaultLogger.Begin()
-	defer logger.DefaultLogger.End()
+	log := logger.Begin()
+	defer log.End()
 
 	var data map[string]interface{} = map[string]interface{}{
 		"apple":  "ONE",
@@ -26,11 +26,11 @@ func main() {
 
 	p, err := json.Marshal(data)
 	if err != nil {
-		logger.DefaultLogger.Error("Error marshaling JSON", err)
+		log.Error("Error marshaling JSON", err)
 		return
 	}
 
-	logger.DefaultLogger.Log("First Json:", string(p))
+	log.Log("First Json:", string(p))
 
 	newFruit := Fruit{
 		Apple:  true,
@@ -40,9 +40,9 @@ func main() {
 
 	p, err = json.Marshal(newFruit)
 	if err != nil {
-		logger.DefaultLogger.Error("Error marshaling JSON", err)
+		log.Error("Error marshaling JSON", err)
 		return
 	}
 
-	logger.DefaultLogger.Log("Second Json:", string(p))
+	log.Log("Second Json:", string(p))
 }
