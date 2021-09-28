@@ -3,14 +3,10 @@ package main
 import (
 	"net/http"
 
+	"github.com/aliforever/go-httpjson"
+
 	"github.com/aliforever/golang-backend-training/chapter7/section7.4/srv/logger"
 )
-
-type Response struct {
-	StatusCode   int64  `json:"status_code"`
-	StatusName   string `json:"status_name"`
-	HumanMessage string `json:"message"`
-}
 
 func main() {
 	log := logger.Begin()
@@ -29,5 +25,9 @@ func main() {
 func NotFoundHandler(writer http.ResponseWriter, _ *http.Request) {
 	log := logger.Begin()
 	defer log.End()
-	// TODO
+
+	err := httpjson.NotFound(writer, "This is not the URI you are looking for.")
+	if err != nil {
+		log.Error("Error serving response", err)
+	}
 }
