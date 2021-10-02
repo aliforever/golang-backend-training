@@ -13,7 +13,7 @@ func DB() *sql.DB {
 	return databaseConnection
 }
 
-func connect() (*sql.DB, error) {
+func connect() (db *sql.DB, err error) {
 	return sql.Open("postgres", fmt.Sprintf("host=%s port=%d user=%s "+
 		"password=%s dbname=%s sslmode=disable",
 		cfg.DbHost, cfg.DbPort, cfg.DbUser, cfg.DbPassword, cfg.DbName))
@@ -21,9 +21,7 @@ func connect() (*sql.DB, error) {
 
 func init() {
 	var err error
-
 	databaseConnection, err = connect()
-
 	if nil != err {
 		panic(err)
 	}

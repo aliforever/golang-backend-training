@@ -2,7 +2,6 @@ package main
 
 import (
 	"github.com/aliforever/golang-backend-training/chapter9/section9.3/models"
-	"github.com/aliforever/golang-backend-training/chapter9/section9.3/srv/db"
 	"github.com/aliforever/golang-backend-training/chapter9/section9.3/srv/logger"
 
 	_ "github.com/lib/pq"
@@ -15,13 +14,6 @@ func main() {
 	log.Log("Connecting to PostgreSQL")
 
 	var err error
-
-	err = db.Connect()
-	if err != nil {
-		log.Error("Error connecting to postgreSQL", err)
-		return
-	}
-	defer db.Close()
 
 	log.Log("Creating a new user")
 
