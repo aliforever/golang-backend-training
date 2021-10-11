@@ -4,7 +4,7 @@ import (
 	"database/sql"
 	"fmt"
 
-	"github.com/aliforever/golang-backend-training/chapter9/section9.3/cfg"
+	"github.com/aliforever/golang-backend-training/chapter9/section9.4/cfg"
 	_ "github.com/lib/pq"
 )
 

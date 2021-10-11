@@ -1,11 +1,11 @@
-package models
+package usermodel
 
 import (
 	"database/sql"
 	"errors"
 	"time"
 
-	"github.com/aliforever/golang-backend-training/chapter9/section9.2/srv/db"
+	"github.com/aliforever/golang-backend-training/chapter9/section9.3/srv/db"
 )
 
 type User struct {
@@ -16,7 +16,7 @@ type User struct {
 	WhenCreated time.Time
 }
 
-func (User) FindById(id int) (user User, err error) {
+func FindById(id int) (user User, err error) {
 	if db.DB() == nil {
 		err = errors.New("db_not_connected")
 		return
@@ -31,7 +31,23 @@ func (User) FindById(id int) (user User, err error) {
 	return
 }
 
-func (User) FindAll() (users []User, err error) {
+func Create(name, username, password string) (id int, err error) {
+	if db.DB() == nil {
+		err = errors.New("db_not_connected")
+		return
+	}
+
+	query := `INSERT INTO users (name, username, password) VALUES ($1, $2, $3) RETURNING id`
+
+	err = db.DB().QueryRow(query, name, username, password).Scan(&id)
+	if err != nil {
+		return
+	}
+
+	return
+}
+
+func FindAll() (users []User, err error) {
 	if db.DB() == nil {
 		err = errors.New("db_not_connected")
 		return

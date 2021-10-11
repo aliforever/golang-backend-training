@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/aliforever/golang-backend-training/chapter9/section9.1/models"
+	"github.com/aliforever/golang-backend-training/chapter9/section9.1/models/usermodel"
 	"github.com/aliforever/golang-backend-training/chapter9/section9.1/srv/logger"
 )
 
@@ -12,8 +12,8 @@ func main() {
 	var err error
 
 	log.Log("Finding all users")
-	var users []models.User
-	users, err = models.User{}.FindAll()
+	var users []usermodel.User
+	users, err = usermodel.FindAll()
 	if err != nil {
 		log.Error("Error finding users", err)
 		return

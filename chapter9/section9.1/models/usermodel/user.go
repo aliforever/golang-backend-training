@@ -1,4 +1,4 @@
-package models
+package usermodel
 
 import (
 	"database/sql"
@@ -16,7 +16,7 @@ type User struct {
 	WhenCreated time.Time
 }
 
-func (User) FindAll() (users []User, err error) {
+func FindAll() (users []User, err error) {
 	if db.DB() == nil {
 		err = errors.New("db_not_connected")
 		return
