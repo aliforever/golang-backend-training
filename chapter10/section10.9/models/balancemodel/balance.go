@@ -20,7 +20,7 @@ func FindById(id int) (balance *Balance, err error) {
 	}
 
 	balance = &Balance{}
-	err = db.DB().QueryRow("select * from balance WHERE id=$1", id).Scan(&balance.Id, &balance.Balance)
+	err = db.DB().QueryRow("select id, balance from balance WHERE id=$1", id).Scan(&balance.Id, &balance.Balance)
 	if err != nil {
 		return
 	}

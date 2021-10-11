@@ -51,7 +51,7 @@ func FindById(id int) (user *User, err error) {
 	}
 
 	user = &User{}
-	err = db.DB().QueryRow("select * from users WHERE id=$1", id).Scan(&user.Id, &user.Name, &user.Username, &user.Password, &user.WhenCreated)
+	err = db.DB().QueryRow("select id, name, username, password, when_created from users WHERE id=$1", id).Scan(&user.Id, &user.Name, &user.Username, &user.Password, &user.WhenCreated)
 	if err != nil {
 		return
 	}
@@ -83,7 +83,7 @@ func FindAll() (users []User, err error) {
 
 	var rows *sql.Rows
 
-	rows, err = db.DB().Query("select * from users")
+	rows, err = db.DB().Query("select id, name, username, password, when_created from users")
 	if err != nil {
 		return
 	}

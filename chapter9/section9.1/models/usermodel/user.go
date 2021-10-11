@@ -24,7 +24,7 @@ func FindAll() (users []User, err error) {
 
 	var rows *sql.Rows
 
-	rows, err = db.DB().Query("select * from users")
+	rows, err = db.DB().Query("select id, name, username, password, when_created from users")
 	if err != nil {
 		return
 	}
