@@ -46,6 +46,7 @@ func UpdateById(id int, data map[string]interface{}) (err error) {
 	_, err = db.DB().Exec(query.String(), values...)
 	return
 }
+
 func FindById(id int) (data *User, err error) {
 	if db.DB() == nil {
 		err = errors.New("db_not_connected")
