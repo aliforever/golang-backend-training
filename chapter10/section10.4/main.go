@@ -19,5 +19,5 @@ func main() {
 		return
 	}
 
-	fmt.Println(fmt.Sprintf("Sum of x & y would be: %#v", xCad.Add(yCad)))
+	fmt.Printf("Sum of x & y would be: %#v\n", xCad.Add(yCad))
 }

@@ -19,5 +19,5 @@ func main() {
 		return
 	}
 
-	fmt.Println(fmt.Sprintf("Subtract of y from x would be: %s", xCad.Sub(yCad)))
+	fmt.Printf("Subtract of y from x would be: %s\n", xCad.Sub(yCad))
 }
