@@ -11,8 +11,6 @@ func main() {
 	log := logger.Begin()
 	defer log.End()
 
-	log.Log("Connecting to PostgreSQL")
-
 	var err error
 
 	var id = 1

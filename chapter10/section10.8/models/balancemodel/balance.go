@@ -13,17 +13,18 @@ type Balance struct {
 	Balance cad.CAD
 }
 
-func FindById(id int) (balance *Balance, err error) {
+func FindById(id int) (data *Balance, err error) {
 	if db.DB() == nil {
 		err = errors.New("db_not_connected")
 		return
 	}
 
-	balance = &Balance{}
+	var balance = &Balance{}
 	err = db.DB().QueryRow("select id, balance from balance WHERE id=$1", id).Scan(&balance.Id, &balance.Balance)
 	if err != nil {
 		return
 	}
+	data = balance
 
 	return
 }

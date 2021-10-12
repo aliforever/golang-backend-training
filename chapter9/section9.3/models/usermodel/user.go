@@ -16,18 +16,18 @@ type User struct {
 	WhenCreated time.Time
 }
 
-func FindById(id int) (user User, err error) {
+func FindById(id int) (data *User, err error) {
 	if db.DB() == nil {
 		err = errors.New("db_not_connected")
 		return
 	}
 
-	user = User{}
+	var user = &User{}
 	err = db.DB().QueryRow("select id, name, username, password from users WHERE id=$1", id).Scan(&user.Id, &user.Name, &user.Username, &user.Password, &user.WhenCreated)
 	if err != nil {
 		return
 	}
-
+	data = user
 	return
 }
 

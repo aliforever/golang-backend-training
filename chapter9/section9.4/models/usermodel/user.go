@@ -19,37 +19,45 @@ type User struct {
 }
 
 func UpdateById(id int, data map[string]interface{}) (err error) {
-	query := `UPDATE users SET `
+	if 0 >= len(data) {
+		err = errors.New("bad_request")
+		return
+	}
 
-	var (
-		queryParts []string
-		values     []interface{}
-	)
+	var values []interface{} = make([]interface{}, len(data)+1)
+	values[0] = id
+
+	var query strings.Builder
+	query.WriteString(`UPDATE users SET `)
+
 	counter := 2
+	lengthCounter := 0
+	separator := ", "
 	for key, value := range data {
-		queryParts = append(queryParts, fmt.Sprintf("%s = $%d", key, counter))
-		values = append(values, value)
+		if lengthCounter == len(data)-1 {
+			separator = ""
+		}
+		fmt.Fprintf(&query, "%s = $%d%s", key, counter, separator)
+		lengthCounter++
+		values[counter-1] = value
 		counter++
 	}
-	values = append([]interface{}{id}, values...)
-
-	query += strings.Join(queryParts, ",") + " WHERE id = $1"
-	_, err = db.DB().Exec(query, values...)
+	query.WriteString(" WHERE id = $1")
+	_, err = db.DB().Exec(query.String(), values...)
 	return
 }
-
-func FindById(id int) (user *User, err error) {
+func FindById(id int) (data *User, err error) {
 	if db.DB() == nil {
 		err = errors.New("db_not_connected")
 		return
 	}
 
-	user = &User{}
+	var user = &User{}
 	err = db.DB().QueryRow("select id, name, username, password, when_created from users WHERE id=$1", id).Scan(&user.Id, &user.Name, &user.Username, &user.Password, &user.WhenCreated)
 	if err != nil {
 		return
 	}
-
+	data = user
 	return
 }
 
