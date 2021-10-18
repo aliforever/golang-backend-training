@@ -18,31 +18,46 @@ type User struct {
 	WhenCreated time.Time
 }
 
-func UpdateById(id int, data map[string]interface{}) (err error) {
+func updateByIdQuery(query *strings.Builder, id int, data map[string]interface{}) (values []interface{}, err error) {
 	if 0 >= len(data) {
 		err = errors.New("bad_request")
 		return
 	}
 
-	var values []interface{} = make([]interface{}, len(data)+1)
+	values = make([]interface{}, len(data)+1)
 	values[0] = id
 
-	var query strings.Builder
-	query.WriteString(`UPDATE users SET `)
+	query.WriteString(`UPDATE users `)
 
 	counter := 2
-	lengthCounter := 0
-	separator := ", "
+	separator := "SET "
 	for key, value := range data {
-		if lengthCounter == len(data)-1 {
-			separator = ""
-		}
-		fmt.Fprintf(&query, "%s = $%d%s", key, counter, separator)
-		lengthCounter++
+
+		query.WriteString(separator)
+		separator = ", "
+
+		query.WriteString(key)
+		query.WriteString(" = $")
+		fmt.Fprintf(query, "%d", counter)
+
 		values[counter-1] = value
 		counter++
 	}
-	query.WriteString(" WHERE id = $1")
+	query.WriteString(" WHERE id=$1")
+	return
+}
+
+func UpdateById(id int, data map[string]interface{}) (err error) {
+	var (
+		query  strings.Builder
+		values []interface{}
+	)
+
+	values, err = updateByIdQuery(&query, id, data)
+	if err != nil {
+		return
+	}
+
 	_, err = db.DB().Exec(query.String(), values...)
 	return
 }

@@ -15,6 +15,7 @@ func main() {
 	var id = 5
 
 	err = usermodel.UpdateById(id, map[string]interface{}{
+		"name":     "new_name",
 		"username": "new_username",
 	})
 	if err != nil {
