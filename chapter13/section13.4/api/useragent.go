@@ -1,4 +1,4 @@
-package handler
+package api
 
 import (
 	"net/http"
@@ -22,11 +22,8 @@ func (xhm UserAgentLogger) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	}
 
 	userAgentHeader := r.Header.Get("User-Agent")
-	if userAgentHeader == "" {
-		return
+	if userAgentHeader != "" {
+		log.Log("User-Agent For request is:", userAgentHeader)
 	}
-
-	log.Log("User-Agent For request is:", userAgentHeader)
-
 	xhm.SubHandler.ServeHTTP(w, r)
 }

@@ -17,3 +17,13 @@ func init() {
 func Begin() *logger.Logger {
 	return defaultLogger.Begin()
 }
+
+type ForMiddleware struct {
+}
+
+func (fm ForMiddleware) Error(data ...interface{}) {
+	l := Begin()
+	defer l.End()
+
+	l.Error(data...)
+}

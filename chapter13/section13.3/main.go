@@ -6,8 +6,10 @@ import (
 	"strings"
 	"time"
 
+	"github.com/aliforever/go-xhttpmiddleware"
+
+	"github.com/aliforever/golang-backend-training/chapter13/section13.3/api"
 	"github.com/aliforever/golang-backend-training/chapter13/section13.3/cfg"
-	"github.com/aliforever/golang-backend-training/chapter13/section13.3/handler"
 
 	"github.com/aliforever/golang-backend-training/chapter13/section13.3/srv/logger"
 )
@@ -20,7 +22,7 @@ func main() {
 
 	go testServer()
 
-	err := http.ListenAndServe(cfg.DefaultHTTPAddress, handler.XHTTPMethodOverrideHandler{SubHandler: handler.HelloWorldHandler{}})
+	err := http.ListenAndServe(cfg.DefaultHTTPAddress, xhttpmiddleware.NewXHTTPMethodOverrideHandler(api.HelloWorldHandler{}, logger.ForMiddleware{}))
 
 	if err != nil {
 		log.ErrorF("Error listening to %s: %s", cfg.DefaultHTTPAddress, err)

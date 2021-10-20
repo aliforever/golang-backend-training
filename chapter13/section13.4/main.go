@@ -6,8 +6,8 @@ import (
 	"strings"
 	"time"
 
+	"github.com/aliforever/golang-backend-training/chapter13/section13.4/api"
 	"github.com/aliforever/golang-backend-training/chapter13/section13.4/cfg"
-	"github.com/aliforever/golang-backend-training/chapter13/section13.4/handler"
 
 	"github.com/aliforever/golang-backend-training/chapter13/section13.4/srv/logger"
 )
@@ -20,7 +20,7 @@ func main() {
 
 	go testServer()
 
-	err := http.ListenAndServe(cfg.DefaultHTTPAddress, handler.UserAgentLogger{SubHandler: handler.HelloWorldHandler{}})
+	err := http.ListenAndServe(cfg.DefaultHTTPAddress, api.UserAgentLogger{SubHandler: api.HelloWorldHandler{}})
 
 	if err != nil {
 		log.ErrorF("Error listening to %s: %s", cfg.DefaultHTTPAddress, err)

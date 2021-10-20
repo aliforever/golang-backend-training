@@ -1,4 +1,4 @@
-package handler
+package api
 
 import (
 	"fmt"
@@ -6,6 +6,10 @@ import (
 	"net/http"
 
 	"github.com/aliforever/golang-backend-training/chapter13/section13.3/srv/logger"
+)
+
+var (
+	internalServerError []byte = []byte("Internal Server Error") // <---------
 )
 
 type HelloWorldHandler struct{}
@@ -21,7 +25,7 @@ func (hwh HelloWorldHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		log.Trace("received http request", r)
 		log.Error("Error reading body:", err)
 		w.WriteHeader(http.StatusInternalServerError)
-		w.Write([]byte("Internal Server Error"))
+		w.Write(internalServerError)
 		return
 	}
 
